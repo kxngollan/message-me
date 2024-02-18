@@ -1,9 +1,18 @@
-const cors = require("cors");
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
-app.use(cors());
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
+    methods: "GET,PUT,POST,DELETE",
+    credentials: true,
+  })
+);
 
 const databaseConnect = require("./database/databaseConnect");
 databaseConnect();
