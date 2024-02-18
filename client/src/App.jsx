@@ -13,7 +13,7 @@ const App = () => {
   const fetchMessages = useCallback(async () => {
     setLoading("Loading...");
     try {
-      const res = await fetch("http://localhost:3000/");
+      const res = await fetch("https://message-me-pkox.onrender.com");
       const data = await res.json();
 
       setMessages(data);
@@ -33,7 +33,7 @@ const App = () => {
     setLoading("Sending...");
     setError(null);
     try {
-      const res = await fetch("http://localhost:3000/", {
+      const res = await fetch("https://message-me-pkox.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
