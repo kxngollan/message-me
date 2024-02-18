@@ -1,11 +1,11 @@
 const cors = require("cors");
 const express = require("express");
-
 const app = express();
+
 app.use(cors());
+app.use(express.json());
 
 const databaseConnect = require("./database/databaseConnect");
-
 databaseConnect();
 
 const Message = require("./database/messageSchema");
@@ -13,6 +13,7 @@ const Message = require("./database/messageSchema");
 app.get("/", async (req, res, next) => {
   try {
     const messages = await Message.find();
+    console.log("Messages fetched successfully");
     res.json(messages);
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -23,11 +24,10 @@ app.post("/", async (req, res, next) => {
   const { user, message } = req.body;
   const date = new Date();
   try {
-    const newMessage = new message({ user, message, date });
+    const newMessage = new Message({ user, message, date });
     await newMessage.save();
     console.log("Message saved successfully");
-
-    const messages = await Message.find();
+    const messages = await Message.find({});
     res.json(messages);
   } catch (err) {
     res.status(500).send({ message: err.message });
