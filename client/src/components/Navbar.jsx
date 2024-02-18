@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 const navbar = () => {
   return (
     <nav>
-      <h1>MM</h1>
+      <h1>Message Me</h1>
       <a href="http://" target="_blank" rel="noreferrer">
         <div className="repo">
           <FaGithub className="nav-icon" /> <h2>Github Repo</h2>
