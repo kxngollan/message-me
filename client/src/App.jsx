@@ -1,24 +1,27 @@
-import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "./components/Navbar";
 import MessageCard from "./components/MessageCard";
 import AddMessage from "./components/AddMessage";
 import "./App.scss";
 
-const api = import.meta.env.API;
-
 const App = () => {
   const [messages, setMessages] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchMessages = useCallback(async () => {
+    setLoading("Loading...");
     try {
-      const res = await fetch(api);
+      const res = await fetch("http://localhost:3000/");
       const data = await res.json();
-      console.log(data);
-      setMessages("messages ", data);
+
+      setMessages(data);
+      setLoading(null);
     } catch (err) {
       console.log(err.message);
+      setLoading(null);
+      setError("Failed to retrieve messages");
     }
   }, []);
 
@@ -27,8 +30,10 @@ const App = () => {
   }, [fetchMessages]);
 
   const sendMessage = async (message) => {
+    setLoading("Sending...");
+    setError(null);
     try {
-      const res = await fetch(api, {
+      const res = await fetch("http://localhost:3000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,8 +42,12 @@ const App = () => {
       });
       const data = await res.json();
       setMessages(data);
+      setLoading(null);
+      setShowModal(false);
     } catch (err) {
       console.log(err);
+      setLoading(null);
+      setError("Failed to send message");
     }
   };
 
@@ -47,18 +56,22 @@ const App = () => {
       <Navbar />
       <div className="container">
         <button onClick={() => setShowModal(true)}>New Message</button>
+        {loading ? <p className="">{loading}</p> : ""}
+        {error ? <p className="error">{error}</p> : ""}
         {showModal ? (
           <AddMessage
             sendMessage={sendMessage}
             close={() => setShowModal(false)}
+            error={error}
           />
         ) : (
           ""
         )}
+
         {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard key={index} message={message} />
-          ))
+          messages.map((message, index) => {
+            return <MessageCard key={index} message={message} />;
+          })
         ) : (
           <p>No Messages</p>
         )}
