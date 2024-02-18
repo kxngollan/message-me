@@ -1,9 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import "./AddMessage.sass";
+import "./AddMessage.scss";
 
-const AddMessage = ({ sendMessage, close }) => {
+const AddMessage = ({ sendMessage, close, error }) => {
   const [post, setPost] = useState({
     message: "",
     user: "",
@@ -22,10 +21,11 @@ const AddMessage = ({ sendMessage, close }) => {
     <div className="modal">
       <div className="overflow" onClick={close}></div>
       <div className="modal-content">
-        <h2>Write Message</h2>
         <form onSubmit={submit}>
+          <h2>Write Message</h2>
           <label htmlFor="user">Name:</label>
           <input
+            placeholder="Username..."
             type="text"
             name="user"
             id="user"
@@ -34,12 +34,14 @@ const AddMessage = ({ sendMessage, close }) => {
           />
           <label htmlFor="messgae">Message:</label>
           <textarea
+            placeholder="Enter message..."
             name="message"
             id="message"
             value={post.message}
             onChange={handleChange}
           />
           <button>Add Message</button>
+          {error && <p className="error">{error}</p>}
         </form>
       </div>
     </div>
@@ -49,6 +51,7 @@ const AddMessage = ({ sendMessage, close }) => {
 AddMessage.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
 };
 
 export default AddMessage;

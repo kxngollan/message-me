@@ -31,3 +31,12 @@ body {
     }
   }
 }
+.error {
+  background-color: palevioletred;
+  color: #fff;
+  border: 2px solid red;
+  font-size: 1.25rem;
+  width: 200px;
+  margin: 10px auto 0;
+  padding: 10px;
+}
