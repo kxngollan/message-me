@@ -1,4 +1,4 @@
-import "./MessageCard.sass";
+import "./MessageCard.scss";
 import PropTypes from "prop-types";
 
 const messageCard = ({ message }) => {
