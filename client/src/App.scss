@@ -8,8 +8,10 @@ body {
 .container {
   margin: auto;
   width: 80%;
-  height: 30vh;
+  min-height: 30vh;
   min-width: 300px;
+  max-height: 80vh;
+  overflow-y: scroll;
   text-align: center;
   background-color: #fff;
   border: 3px solid #bfea7c;
