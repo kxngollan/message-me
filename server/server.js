@@ -23,7 +23,10 @@ app.get("/", async (req, res, next) => {
   try {
     const messages = await Message.find();
     console.log("Messages fetched successfully");
-    res.json(messages);
+    const sorted = messages.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+    res.json(sorted);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -37,7 +40,10 @@ app.post("/", async (req, res, next) => {
     await newMessage.save();
     console.log("Message saved successfully");
     const messages = await Message.find({});
-    res.json(messages);
+    const sorted = messages.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+    res.json(sorted);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
